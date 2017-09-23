@@ -39,20 +39,20 @@ class ClassSchemaBuilder {
         return createClassInfo(c, Collections.<String>emptySet(), false);
     }
 
-    void registerClass(Class<?> c, Set<String> ignoreFields, boolean withTransient) {
+    private void registerClass(Class<?> c, Set<String> ignoreFields, boolean withTransient) {
         ClassInfo classInfo = classInfoCache.get(c);
         if (classInfo == null) {
-            valiadateClass(c);
+            validateClass(c);
             classInfo = createClassInfo(c, ignoreFields, withTransient);
             int code = c.hashCode();
             classInfoCache.put(code, classInfo);
         }
     }
 
-    ClassInfo createClassInfo(Class<?> c, Set<String> fieldNamesToIgnore, boolean withTransient) {
+    private ClassInfo createClassInfo(Class<?> c, Set<String> fieldNamesToIgnore, boolean withTransient) {
         ClassInfo classInfo = classInfoCache.get(c);
         if (classInfo == null) {
-            valiadateClass(c);
+            validateClass(c);
             List<Field> fields = getFieldsFor(c, fieldNamesToIgnore, withTransient);
             List<FieldInfo> fieldsWithInfo = mapFieldsToFieldInfo(fields);
             FieldInfo[] fieldInfos = fieldsWithInfo.toArray(new FieldInfo[fieldsWithInfo.size()]);
@@ -63,7 +63,7 @@ class ClassSchemaBuilder {
         return classInfo;
     }
 
-    private void valiadateClass(Class<?> c) {
+    private void validateClass(Class<?> c) {
         if (Modifier.isAbstract(c.getModifiers()) || Modifier.isInterface(c.getModifiers())) {
             throw new RuntimeException("Can not register an abstract class");
         }
@@ -181,10 +181,10 @@ class ClassSchemaBuilder {
      */
     static class FieldInfo {
 
-        protected SerializationUtils.Serializer fieldSerializer;
-        protected SerializationUtils.Deserializer fieldDeserializer;
-        protected final Field field;
-        protected long offset;
+        SerializationUtils.Serializer fieldSerializer;
+        SerializationUtils.Deserializer fieldDeserializer;
+        final Field field;
+        long offset;
 
         FieldInfo(Field field, SerializationUtils.Serializer fieldSerializer, SerializationUtils.Deserializer fieldDeserializer) {
             this.field = field;
@@ -223,7 +223,7 @@ class ClassSchemaBuilder {
     /**
      *
      */
-    final static class BatchFieldInfo extends FieldInfo {
+    private final static class BatchFieldInfo extends FieldInfo {
 
         private final FieldInfo firstField;
 
@@ -244,10 +244,10 @@ class ClassSchemaBuilder {
      */
     static class EnumFieldInfo extends FieldInfo {
 
-        protected Field ordinalField;
-        protected long ordinalOffset;
-        protected Field valuesField;
-        protected long valuesOffset;
+        Field ordinalField;
+        long ordinalOffset;
+        Field valuesField;
+        long valuesOffset;
 
         EnumFieldInfo(Field field, SerializationUtils.Serializer fieldSerializer) {
             super(field, fieldSerializer, null);
@@ -282,7 +282,7 @@ class ClassSchemaBuilder {
     /**
      *
      */
-    final static class EnumVolatileFieldInfo extends EnumFieldInfo {
+    private final static class EnumVolatileFieldInfo extends EnumFieldInfo {
 
         EnumVolatileFieldInfo(Field field, SerializationUtils.Serializer fieldSerializer) {
             super(field, fieldSerializer);

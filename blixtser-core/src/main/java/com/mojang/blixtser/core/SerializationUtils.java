@@ -8,7 +8,7 @@ import static com.mojang.blixtser.core.ClassSchemaBuilder.*;
 
 class SerializationUtils {
 
-    public static Unsafe unsafe = getUnsafeInstance();
+    static Unsafe unsafe = getUnsafeInstance();
 
     private static Unsafe getUnsafeInstance() {
         try {
@@ -83,13 +83,13 @@ class SerializationUtils {
     }
 
 
-    static interface Serializer {
+    interface Serializer {
 
         void serialize(UnsafeMemory unsafeMemory, Object object, long offset);
 
     }
 
-    static interface Deserializer {
+    interface Deserializer {
 
         void deserialize(UnsafeMemory unsafeMemory, Object object, long offset);
 

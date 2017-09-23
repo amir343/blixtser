@@ -7,7 +7,7 @@ import java.util.Map;
 
 import static com.mojang.blixtser.core.SerializationUtils.*;
 
-public abstract class TypeRepository {
+abstract class TypeRepository {
 
     static final TypeRepository volatileTypeRepository = new VolatileTypeRepository();
     static final TypeRepository nonVolatileTypeRepository = new NonVolatileTypeRepository();
@@ -39,7 +39,7 @@ public abstract class TypeRepository {
     /**
      *
      */
-    static class NonVolatileTypeRepository extends TypeRepository {
+    private static class NonVolatileTypeRepository extends TypeRepository {
 
         private final Map<Class, Serializer> serializers = new HashMap<>(64);
         private final Map<Class, Deserializer> deserializers = new HashMap<>(64);
@@ -170,7 +170,7 @@ public abstract class TypeRepository {
     /**
      *
      */
-    static class VolatileTypeRepository extends TypeRepository {
+    private static class VolatileTypeRepository extends TypeRepository {
 
         private final Map<Class, Serializer> serializers = new HashMap<>(32);
         private final Map<Class, Deserializer> deserializers = new HashMap<>(32);

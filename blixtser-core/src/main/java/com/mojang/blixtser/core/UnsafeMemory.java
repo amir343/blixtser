@@ -3,7 +3,7 @@ package com.mojang.blixtser.core;
 import static com.mojang.blixtser.core.ClassSchemaBuilder.stringClassInfo;
 import static com.mojang.blixtser.core.SerializationUtils.unsafe;
 
-public class UnsafeMemory {
+class UnsafeMemory {
 
     private static final int INITIAL_CAPACITY = 1024;
 
@@ -30,7 +30,7 @@ public class UnsafeMemory {
     private int pos = 0;
     private byte[] buffer;
 
-    public UnsafeMemory(final byte[] buffer) {
+    UnsafeMemory(final byte[] buffer) {
         if (null == buffer) {
             throw new NullPointerException("buffer cannot be null");
         }
@@ -38,11 +38,11 @@ public class UnsafeMemory {
         this.buffer = buffer;
     }
 
-    public UnsafeMemory() {
+    UnsafeMemory() {
         this.buffer = new byte[INITIAL_CAPACITY];
     }
 
-    public final void reset() {
+    final void reset() {
         pos = 0;
     }
 
@@ -50,213 +50,213 @@ public class UnsafeMemory {
         return pos;
     }
 
-    public final void writeByte(final byte value) {
+    final void writeByte(final byte value) {
         ensureCapacity(SIZE_OF_BYTE);
         unsafe.putByte(buffer, byteArrayOffset + pos, value);
         pos += SIZE_OF_BYTE;
     }
 
-    public final byte readByte() {
+    final byte readByte() {
         byte value = unsafe.getByte(buffer, byteArrayOffset + pos);
         pos += SIZE_OF_BYTE;
 
         return value;
     }
 
-    public final void writeShort(final short value) {
+    final void writeShort(final short value) {
         ensureCapacity(SIZE_OF_SHORT);
         unsafe.putShort(buffer, byteArrayOffset + pos, value);
         pos += SIZE_OF_SHORT;
     }
 
-    public final short readShort() {
+    final short readShort() {
         short value = unsafe.getShort(buffer, byteArrayOffset + pos);
         pos += SIZE_OF_SHORT;
 
         return value;
     }
 
-    public final void writeBoolean(final boolean value) {
+    final void writeBoolean(final boolean value) {
         ensureCapacity(SIZE_OF_BOOLEAN);
         unsafe.putBoolean(buffer, byteArrayOffset + pos, value);
         pos += SIZE_OF_BOOLEAN;
     }
 
-    public final boolean readBoolean() {
+    final boolean readBoolean() {
         boolean value = unsafe.getBoolean(buffer, byteArrayOffset + pos);
         pos += SIZE_OF_BOOLEAN;
 
         return value;
     }
 
-    public final void writeInt(final int value) {
+    final void writeInt(final int value) {
         ensureCapacity(SIZE_OF_INT);
         unsafe.putInt(buffer, byteArrayOffset + pos, value);
         pos += SIZE_OF_INT;
     }
 
-    public final int readInt() {
+    final int readInt() {
         int value = unsafe.getInt(buffer, byteArrayOffset + pos);
         pos += SIZE_OF_INT;
 
         return value;
     }
 
-    public final void writeLong(final long value) {
+    final void writeLong(final long value) {
         ensureCapacity(SIZE_OF_LONG);
         unsafe.putLong(buffer, byteArrayOffset + pos, value);
         pos += SIZE_OF_LONG;
     }
 
-    public final long readLong() {
+    final long readLong() {
         long value = unsafe.getLong(buffer, byteArrayOffset + pos);
         pos += SIZE_OF_LONG;
 
         return value;
     }
 
-    public final void writeDouble(final double value) {
+    final void writeDouble(final double value) {
         ensureCapacity(SIZE_OF_DOUBLE);
         unsafe.putDouble(buffer, byteArrayOffset + pos, value);
         pos += SIZE_OF_DOUBLE;
     }
 
-    public final double readDouble() {
+    final double readDouble() {
         double value = unsafe.getDouble(buffer, byteArrayOffset + pos);
         pos += SIZE_OF_DOUBLE;
 
         return value;
     }
 
-    public final void writeFloat(final float value) {
+    final void writeFloat(final float value) {
         ensureCapacity(SIZE_OF_FLOAT);
         unsafe.putFloat(buffer, byteArrayOffset + pos, value);
         pos += SIZE_OF_FLOAT;
     }
 
-    public final float readFloat() {
+    final float readFloat() {
         float value = unsafe.getFloat(buffer, byteArrayOffset + pos);
         pos += SIZE_OF_FLOAT;
 
         return value;
     }
 
-    public final void writeString(final String value) {
+    final void writeString(final String value) {
         for (ClassSchemaBuilder.FieldInfo fi : stringClassInfo.fieldInfos) {
             fi.serialize(this, value);
         }
     }
 
-    public final String readString() {
-        String object = new String();
+    final String readString() {
+        String object = "";
         for (ClassSchemaBuilder.FieldInfo fi : stringClassInfo.fieldInfos) {
             fi.deserialize(this, object);
         }
         return object;
     }
 
-    public final void writeChar(final char value) {
+    final void writeChar(final char value) {
         ensureCapacity(SIZE_OF_CHAR);
         unsafe.putChar(buffer, byteArrayOffset + pos, value);
         pos += SIZE_OF_CHAR;
     }
 
-    public final char readChar() {
+    final char readChar() {
         char value = unsafe.getChar(buffer, byteArrayOffset + pos);
         pos += SIZE_OF_CHAR;
 
         return value;
     }
 
-    public final void writeInteger(final Integer value) {
+    final void writeInteger(final Integer value) {
         ensureCapacity(SIZE_OF_INT + 1);
         if (writeNullable(value)) {
             writeInt(value);
         }
     }
 
-    public final void writeLongWrapper(final Long value) {
+    final void writeLongWrapper(final Long value) {
         ensureCapacity(SIZE_OF_LONG + 1);
         if (writeNullable(value)) {
             writeLong(value);
         }
     }
 
-    public final void writeFloatWrapper(final Float value) {
+    final void writeFloatWrapper(final Float value) {
         ensureCapacity(SIZE_OF_FLOAT + 1);
         if (writeNullable(value)) {
             writeFloat(value);
         }
     }
 
-    public final void writeDoubleWrapper(final Double value) {
+    final void writeDoubleWrapper(final Double value) {
         ensureCapacity(SIZE_OF_DOUBLE + 1);
         if (writeNullable(value)) {
             writeDouble(value);
         }
     }
 
-    public final void writeShortWrapper(final Short value) {
+    final void writeShortWrapper(final Short value) {
         ensureCapacity(SIZE_OF_SHORT);
         if (writeNullable(value)) {
             writeShort(value);
         }
     }
 
-    public final void writeBooleanWrapper(final Boolean value) {
+    final void writeBooleanWrapper(final Boolean value) {
         ensureCapacity(SIZE_OF_BOOLEAN + 1);
         if (writeNullable(value)) {
             writeBoolean(value);
         }
     }
 
-    public final void writeCharacter(final Character value) {
+    final void writeCharacter(final Character value) {
         ensureCapacity(SIZE_OF_CHAR + 1);
         if (writeNullable(value)) {
             writeChar(value);
         }
     }
 
-    public final void writeByteWrapper(final Byte value) {
+    final void writeByteWrapper(final Byte value) {
         ensureCapacity(SIZE_OF_BYTE + 1);
         if (writeNullable(value)) {
             writeByte(value);
         }
     }
 
-    public final Integer readInteger() {
+    final Integer readInteger() {
         return readByte() == 0 ? null : readInt();
     }
 
-    public final Long readLongWrapper() {
+    final Long readLongWrapper() {
         return readByte() == 0 ? null : readLong();
     }
 
-    public final Short readShortWrapper() {
+    final Short readShortWrapper() {
         return readByte() == 0 ? null : readShort();
     }
 
-    public final Boolean readBooleanWrapper() {
+    final Boolean readBooleanWrapper() {
         return readByte() == 0 ? null : readBoolean();
     }
 
-    public final Character readCharacter() {
+    final Character readCharacter() {
         return readByte() == 0 ? null : readChar();
     }
 
-    public final Float readFloatWrapper() {
+    final Float readFloatWrapper() {
         return readByte() == 0 ? null : readFloat();
     }
 
-    public final Double readDoubleWrapper() {
+    final Double readDoubleWrapper() {
         return readByte() == 0 ? null : readDouble();
     }
 
-    public final Byte readByteWrapper() {
+    final Byte readByteWrapper() {
         return readByte() == 0 ? null : readByte();
     }
 
-    public final byte[] getBuffer() {
+    final byte[] getBuffer() {
         byte[] usedBuffer = new byte[pos];
 
         unsafe.copyMemory(buffer, byteArrayOffset, usedBuffer, byteArrayOffset, pos);
@@ -264,7 +264,7 @@ public class UnsafeMemory {
         return usedBuffer;
     }
 
-    public final void writeCharArray(final char[] values) {
+     final void writeCharArray(final char[] values) {
         ensureCapacity(SIZE_OF_INT);
         if (writeNullable(values)) {
             writeInt(values.length);
@@ -272,7 +272,7 @@ public class UnsafeMemory {
         }
     }
 
-    public final void writeByteArray(final byte[] values) {
+     final void writeByteArray(final byte[] values) {
         ensureCapacity(SIZE_OF_INT);
         if (writeNullable(values)) {
             writeInt(values.length);
@@ -280,7 +280,7 @@ public class UnsafeMemory {
         }
     }
 
-    public final void writeLongArray(final long[] values) {
+     final void writeLongArray(final long[] values) {
         ensureCapacity(SIZE_OF_INT);
         if (writeNullable(values)) {
             writeInt(values.length);
@@ -288,7 +288,7 @@ public class UnsafeMemory {
         }
     }
 
-    public final void writeDoubleArray(final double[] values) {
+     final void writeDoubleArray(final double[] values) {
         ensureCapacity(SIZE_OF_INT);
         if (writeNullable(values)) {
             writeInt(values.length);
@@ -296,7 +296,7 @@ public class UnsafeMemory {
         }
     }
 
-    public final void writeFloatArray(final float[] values) {
+     final void writeFloatArray(final float[] values) {
         ensureCapacity(SIZE_OF_INT);
         if (writeNullable(values)) {
             writeInt(values.length);
@@ -304,7 +304,7 @@ public class UnsafeMemory {
         }
     }
 
-    public final void writeIntArray(final int[] values) {
+     final void writeIntArray(final int[] values) {
         ensureCapacity(SIZE_OF_INT);
         if (writeNullable(values)) {
             writeInt(values.length);
@@ -312,7 +312,7 @@ public class UnsafeMemory {
         }
     }
 
-    public final void writeShortArray(final short[] values) {
+     final void writeShortArray(final short[] values) {
         ensureCapacity(SIZE_OF_INT);
         if (writeNullable(values)) {
             writeInt(values.length);
@@ -320,7 +320,7 @@ public class UnsafeMemory {
         }
     }
 
-    public final void writeBooleanArray(final boolean[] values) {
+     final void writeBooleanArray(final boolean[] values) {
         ensureCapacity(SIZE_OF_INT);
         if (writeNullable(values)) {
             writeInt(values.length);
@@ -328,7 +328,7 @@ public class UnsafeMemory {
         }
     }
 
-    public final char[] readCharArray() {
+     final char[] readCharArray() {
         if (readNullable()) {
             char[] values = new char[readInt()];
             readAnArray(values.length << 1, charArrayOffset, values);
@@ -337,7 +337,7 @@ public class UnsafeMemory {
         return null;
     }
 
-    public final byte[] readByteArray() {
+     final byte[] readByteArray() {
         if (readNullable()) {
             byte[] values = new byte[readInt()];
             readAnArray(values.length, byteArrayOffset, values);
@@ -346,7 +346,7 @@ public class UnsafeMemory {
         return null;
     }
 
-    public final int[] readIntArray() {
+     final int[] readIntArray() {
         if (readNullable()) {
             int[] values = new int[readInt()];
             readAnArray(values.length << 2, intArrayOffset, values);
@@ -355,7 +355,7 @@ public class UnsafeMemory {
         return null;
     }
 
-    public final long[] readLongArray() {
+     final long[] readLongArray() {
         if (readNullable()) {
             long[] values = new long[readInt()];
             readAnArray(values.length << 3, longArrayOffset, values);
@@ -364,7 +364,7 @@ public class UnsafeMemory {
         return null;
     }
 
-    public final double[] readDoubleArray() {
+     final double[] readDoubleArray() {
         if (readNullable()) {
             double[] values = new double[readInt()];
             readAnArray(values.length << 3, doubleArrayOffset, values);
@@ -373,7 +373,7 @@ public class UnsafeMemory {
         return null;
     }
 
-    public final float[] readFloatArray() {
+     final float[] readFloatArray() {
         if (readNullable()) {
             float[] values = new float[readInt()];
             readAnArray(values.length << 2, floatArrayOffset, values);
@@ -382,7 +382,7 @@ public class UnsafeMemory {
         return null;
     }
 
-    public final short[] readShortArray() {
+     final short[] readShortArray() {
         if (readNullable()) {
             short[] values = new short[readInt()];
             readAnArray(values.length << 1, shortArrayOffset, values);
@@ -391,7 +391,7 @@ public class UnsafeMemory {
         return null;
     }
 
-    public final boolean[] readBooleanArray() {
+     final boolean[] readBooleanArray() {
         if (readNullable()) {
             boolean[] values = new boolean[readInt()];
             readAnArray(values.length, booleanArrayOffset, values);
@@ -400,7 +400,7 @@ public class UnsafeMemory {
         return null;
     }
 
-    public final void writeGenericArray(long bytesToCopy, long arrayOffset, Object values) {
+     private final void writeGenericArray(long bytesToCopy, long arrayOffset, Object values) {
         ensureCapacity(bytesToCopy);
         unsafe.copyMemory(values, arrayOffset, buffer, byteArrayOffset + pos, bytesToCopy);
         pos += bytesToCopy;
@@ -425,13 +425,13 @@ public class UnsafeMemory {
         return readByte() != 0;
     }
 
-    public final void writeBatch(Object object, long offset, int size) {
+     final void writeBatch(Object object, long offset, int size) {
         ensureCapacity(size);
         unsafe.copyMemory(object, offset, buffer, byteArrayOffset + pos, size);
         pos += size;
     }
 
-    public final void readBatch(Object object, long offset, int size) {
+     final void readBatch(Object object, long offset, int size) {
         long off = offset;
 
         while (size >= SIZE_OF_LONG) {
