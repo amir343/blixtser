@@ -1,5 +1,3 @@
-benchmarkName = "com.mojang.blixtser.benchmark.MicroBenchmark_AllModes"
-
 dependencies {
     compile project(':blixtser-core')
 
@@ -11,6 +9,10 @@ dependencies {
 }
 
 task benchmark(dependsOn: classes, type:JavaExec) {
-    main = benchmarkName;
+    if(project.hasProperty('benchmarkName')) {
+      main = benchmarkName;
+    } else {
+      main = 'com.mojang.blixtser.benchmark.MicroBenchmark_AllModes'
+    }
     classpath = sourceSets.main.runtimeClasspath;
 }

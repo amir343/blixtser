@@ -37,6 +37,7 @@ allprojects {
     }
 
     dependencies {
+        testCompile 'org.projectlombok:lombok:1.16.18'
         testCompile 'junit:junit:4.10'
     }
 
