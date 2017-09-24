@@ -197,7 +197,7 @@ class UnsafeMemory {
     }
 
     final void writeShortWrapper(final Short value) {
-        ensureCapacity(SIZE_OF_SHORT);
+        ensureCapacity(SIZE_OF_SHORT + 1);
         if (writeNullable(value)) {
             writeShort(value);
         }
@@ -265,7 +265,7 @@ class UnsafeMemory {
     }
 
      final void writeCharArray(final char[] values) {
-        ensureCapacity(SIZE_OF_INT);
+        ensureCapacity(SIZE_OF_INT + 1);
         if (writeNullable(values)) {
             writeInt(values.length);
             writeGenericArray(values.length << 1, charArrayOffset, values);
@@ -273,7 +273,7 @@ class UnsafeMemory {
     }
 
      final void writeByteArray(final byte[] values) {
-        ensureCapacity(SIZE_OF_INT);
+        ensureCapacity(SIZE_OF_INT + 1);
         if (writeNullable(values)) {
             writeInt(values.length);
             writeGenericArray(values.length, byteArrayOffset, values);
@@ -281,7 +281,7 @@ class UnsafeMemory {
     }
 
      final void writeLongArray(final long[] values) {
-        ensureCapacity(SIZE_OF_INT);
+        ensureCapacity(SIZE_OF_INT + 1);
         if (writeNullable(values)) {
             writeInt(values.length);
             writeGenericArray(values.length << 3, longArrayOffset, values);
@@ -289,7 +289,7 @@ class UnsafeMemory {
     }
 
      final void writeDoubleArray(final double[] values) {
-        ensureCapacity(SIZE_OF_INT);
+        ensureCapacity(SIZE_OF_INT + 1);
         if (writeNullable(values)) {
             writeInt(values.length);
             writeGenericArray(values.length << 3, doubleArrayOffset, values);
@@ -297,7 +297,7 @@ class UnsafeMemory {
     }
 
      final void writeFloatArray(final float[] values) {
-        ensureCapacity(SIZE_OF_INT);
+        ensureCapacity(SIZE_OF_INT + 1);
         if (writeNullable(values)) {
             writeInt(values.length);
             writeGenericArray(values.length << 2, floatArrayOffset, values);
@@ -305,7 +305,7 @@ class UnsafeMemory {
     }
 
      final void writeIntArray(final int[] values) {
-        ensureCapacity(SIZE_OF_INT);
+        ensureCapacity(SIZE_OF_INT + 1);
         if (writeNullable(values)) {
             writeInt(values.length);
             writeGenericArray(values.length << 2, intArrayOffset, values);
@@ -313,7 +313,7 @@ class UnsafeMemory {
     }
 
      final void writeShortArray(final short[] values) {
-        ensureCapacity(SIZE_OF_INT);
+        ensureCapacity(SIZE_OF_INT + 1);
         if (writeNullable(values)) {
             writeInt(values.length);
             writeGenericArray(values.length << 1, shortArrayOffset, values);
@@ -321,7 +321,7 @@ class UnsafeMemory {
     }
 
      final void writeBooleanArray(final boolean[] values) {
-        ensureCapacity(SIZE_OF_INT);
+        ensureCapacity(SIZE_OF_INT + 1);
         if (writeNullable(values)) {
             writeInt(values.length);
             writeGenericArray(values.length, booleanArrayOffset, values);
@@ -400,7 +400,7 @@ class UnsafeMemory {
         return null;
     }
 
-     private final void writeGenericArray(long bytesToCopy, long arrayOffset, Object values) {
+     private void writeGenericArray(long bytesToCopy, long arrayOffset, Object values) {
         ensureCapacity(bytesToCopy);
         unsafe.copyMemory(values, arrayOffset, buffer, byteArrayOffset + pos, bytesToCopy);
         pos += bytesToCopy;
