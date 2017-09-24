@@ -532,7 +532,8 @@ public class BlixtserTest {
         byte[] serialized = blixtser.serialize(testClass);
         Object deserialized = blixtser.deserialize(serialized);
 
-        Assert.assertTrue(testClass.equals(deserialized));
+        Assert.assertTrue("Expected " + testClass.toString() + "\n but got " + deserialized.toString(),
+                testClass.equals(deserialized));
     }
 
 }

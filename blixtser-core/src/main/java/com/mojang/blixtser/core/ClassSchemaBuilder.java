@@ -19,9 +19,8 @@ class ClassSchemaBuilder {
 
     ClassSchemaBuilder() {
         Set<String> ignoreFields = new HashSet<>();
-        ignoreFields.add("hash");
 
-        stringClassInfo = createClassInfo(String.class, ignoreFields, false);
+        stringClassInfo = createClassInfo(String.class);
         stringBufferInfo = createClassInfo(StringBuffer.class);
         stringBuilderInfo = createClassInfo(StringBuilder.class);
         bigIntegerClassInfo = createClassInfo(BigInteger.class);

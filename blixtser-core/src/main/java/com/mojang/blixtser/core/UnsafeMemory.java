@@ -148,7 +148,7 @@ class UnsafeMemory {
     }
 
     final String readString() {
-        String object = "";
+        String object = new String();
         for (ClassSchemaBuilder.FieldInfo fi : stringClassInfo.fieldInfos) {
             fi.deserialize(this, object);
         }
